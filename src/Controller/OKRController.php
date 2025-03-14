@@ -19,14 +19,27 @@ final class OKRController extends AbstractController
         ]);
     }
 
+    #[Route('/okr/list', name: 'list_okr', methods: ["GET"])]
+    public function list(EntityManagerInterface $entityManager): JsonResponse
+    {
+        $okrs = $entityManager->getRepository(OKR::class)->findAll();
+
+        $okrStrings = array_map(fn(OKR $okr) => ['id' => $okr->getId(), 'okr' => $okr->getOkr()], $okrs);
+
+        return $this->json([
+            'message' => 'Success',
+            'data' => $okrStrings
+        ]);
+    }
+
     #[Route('/okr/{id}', name: 'get_okr', methods: ["GET"])]
     public function get(EntityManagerInterface $entityManager, int $id): JsonResponse
     {
         $okr = $entityManager->getRepository(OKR::class)->find($id);
 
-        if(!$okr) {
+        if (!$okr) {
             throw $this->createNotFoundException(
-                'No OKR found with id'.$id
+                'No OKR found with id' . $id
             );
         }
 
@@ -49,8 +62,9 @@ final class OKRController extends AbstractController
         return $this->json([
             'message' => 'success',
             'data' => [
-                'id' => $okr->getId()
+                'id' => $okr->getId(),
+                'okr' => $defaultValue,
             ]
-            ]);
+        ]);
     }
 }
