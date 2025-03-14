@@ -7,3 +7,4 @@
 
 #### Database setup 
 - `php bin/console make:entity`
+- `php bin/console make:migration`
