@@ -20,3 +20,5 @@
 - `composer require symfony/security-bundle`
 - `php bin/console make:user` 
 - `php bin/console make:controller`
+
+https://symfony.com/doc/current/security.html#the-firewall
