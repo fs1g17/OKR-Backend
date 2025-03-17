@@ -8,6 +8,8 @@
 - `symfony new my_project_directory`
 - `composer require symfony/maker-bundle --dev`
 - `composer require symfony/orm-pack` 
+(Optional) install profiler:
+- `composer require --dev symfony/profiler-pack` 
 
 #### Database setup 
 - `php bin/console make:entity`
