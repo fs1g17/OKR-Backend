@@ -31,4 +31,6 @@ https://medium.com/@agharsaifeddine/set-up-jwt-authentication-with-symfony-using
 - `openssl genrsa -out config/jwt/private.pem`
 - `openssl rsa -in config/jwt/private.pem -pubout > config/jwt/public.pem` 
 
+https://github.com/lexik/LexikJWTAuthenticationBundle/issues/646#issuecomment-590422947
+
 I'm here: https://symfony.com/doc/current/security.html#the-firewall
