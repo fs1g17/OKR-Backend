@@ -17,6 +17,10 @@ class OKR
     #[ORM\Column(type: Types::TEXT)]
     private ?string $okr = null;
 
+    #[ORM\ManyToOne(targetEntity:User::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $created_by = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -30,6 +34,18 @@ class OKR
     public function setOkr(string $okr): static
     {
         $this->okr = $okr;
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->created_by;
+    }
+
+    public function setCreatedBy(?User $created_by): static
+    {
+        $this->created_by = $created_by;
 
         return $this;
     }

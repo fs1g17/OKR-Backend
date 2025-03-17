@@ -22,7 +22,10 @@ final class OKRController extends AbstractController
     #[Route('/api/okr/list', name: 'list_okr', methods: ["GET"])]
     public function list(EntityManagerInterface $entityManager): JsonResponse
     {
-        $okrs = $entityManager->getRepository(OKR::class)->findAll();
+        $user = $this->getUser();
+
+        $okrRepository = $entityManager->getRepository(OKR::class);
+        $okrs = $okrRepository->findByCreatedBy($user);
 
         $okrStrings = array_map(fn(OKR $okr) => ['id' => $okr->getId(), 'okr' => $okr->getOkr()], $okrs);
 
@@ -54,8 +57,12 @@ final class OKRController extends AbstractController
     {
         $defaultValue = "{\"id\":0,\"data\":{\"objective\":\"Objective\",\"description\":\"description\"}}";
 
+        $user = $this->getUser();
+
         $okr = new OKR();
         $okr->setOkr($defaultValue);
+        $okr->setCreatedBy($user);
+
         $entityManager->persist($okr);
         $entityManager->flush();
 
