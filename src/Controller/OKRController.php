@@ -6,19 +6,11 @@ use App\Entity\OKR;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class OKRController extends AbstractController
 {
-    #[Route('/api/okr', name: 'app_okr')]
-    public function index(): JsonResponse
-    {
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/OKRController.php',
-        ]);
-    }
-
     #[Route('/api/okr/list', name: 'list_okr', methods: ["GET"])]
     public function list(EntityManagerInterface $entityManager): JsonResponse
     {
@@ -27,7 +19,7 @@ final class OKRController extends AbstractController
         $okrRepository = $entityManager->getRepository(OKR::class);
         $okrs = $okrRepository->findByCreatedBy($user);
 
-        $okrStrings = array_map(fn(OKR $okr) => ['id' => $okr->getId(), 'okr' => $okr->getOkr()], $okrs);
+        $okrStrings = array_map(fn(OKR $okr) => ['id' => $okr->getId(), 'name' => $okr->getname()], $okrs);
 
         return $this->json([
             'message' => 'Success',
@@ -48,20 +40,33 @@ final class OKRController extends AbstractController
 
         return $this->json([
             'message' => 'success',
-            'data' => $okr->getOkr()
+            'data' => [
+                'name' => $okr->getName(),
+                'okr' => $okr->getOkr(),
+            ]
         ]);
     }
 
     #[Route('/api/okr/new', name: 'post_okr', methods: ["POST"])]
-    public function post(EntityManagerInterface $entityManager): JsonResponse
+    public function post(EntityManagerInterface $entityManager, Request $request): JsonResponse
     {
-        $defaultValue = "{\"id\":0,\"data\":{\"objective\":\"Objective\",\"description\":\"description\"}}";
+        $data = json_decode($request->getContent(), true);
+
+        if(empty($data['name'])) {
+            return $this->json([
+                'message' => 'error',
+                'description' => 'provide a name for the OKR'
+            ]);
+        }
+
+        $defaultValue = "{\"counter\":1,\"data\":{\"id\":0,\"data\":{\"objective\":\"Objective\",\"description\":\"Description\"},\"children\":[]}}";
 
         $user = $this->getUser();
 
         $okr = new OKR();
         $okr->setOkr($defaultValue);
         $okr->setCreatedBy($user);
+        $okr->setName($data['name']);
 
         $entityManager->persist($okr);
         $entityManager->flush();
@@ -70,6 +75,7 @@ final class OKRController extends AbstractController
             'message' => 'success',
             'data' => [
                 'id' => $okr->getId(),
+                'name' => $okr->getName(),
                 'okr' => $defaultValue,
             ]
         ]);

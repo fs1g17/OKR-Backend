@@ -21,6 +21,9 @@ class OKR
     #[ORM\JoinColumn(nullable: false)]
     private ?User $created_by = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $name = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -46,6 +49,18 @@ class OKR
     public function setCreatedBy(?User $created_by): static
     {
         $this->created_by = $created_by;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): static
+    {
+        $this->name = $name;
 
         return $this;
     }
