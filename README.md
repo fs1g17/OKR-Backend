@@ -3,6 +3,8 @@
 #### Run 
 - `symfony server:start`
 - `docker compose up -d`
+if volume has been deleted, re-run migrations:
+- `php bin/console doctrine:migrations:migrate`
 
 #### Setup
 - `symfony new my_project_directory`
@@ -22,5 +24,11 @@
 - `composer require symfony/security-bundle`
 - `php bin/console make:user` 
 - `php bin/console make:controller`
+
+https://medium.com/@agharsaifeddine/set-up-jwt-authentication-with-symfony-using-the-lexikjwtauthenticationbundle-2df8e9170bec
+- [generate keys](https://stackoverflow.com/a/78348410)
+- `composer require lexik/jwt-authentication-bundle`
+- `openssl genrsa -out config/jwt/private.pem`
+- `openssl rsa -in config/jwt/private.pem -pubout > config/jwt/public.pem` 
 
 I'm here: https://symfony.com/doc/current/security.html#the-firewall

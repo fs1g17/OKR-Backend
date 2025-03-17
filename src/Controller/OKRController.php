@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class OKRController extends AbstractController
 {
-    #[Route('/okr', name: 'app_okr')]
+    #[Route('/api/okr', name: 'app_okr')]
     public function index(): JsonResponse
     {
         return $this->json([
@@ -19,7 +19,7 @@ final class OKRController extends AbstractController
         ]);
     }
 
-    #[Route('/okr/list', name: 'list_okr', methods: ["GET"])]
+    #[Route('/api/okr/list', name: 'list_okr', methods: ["GET"])]
     public function list(EntityManagerInterface $entityManager): JsonResponse
     {
         $okrs = $entityManager->getRepository(OKR::class)->findAll();
@@ -32,7 +32,7 @@ final class OKRController extends AbstractController
         ]);
     }
 
-    #[Route('/okr/{id}', name: 'get_okr', methods: ["GET"])]
+    #[Route('/api/okr/{id}', name: 'get_okr', methods: ["GET"])]
     public function get(EntityManagerInterface $entityManager, int $id): JsonResponse
     {
         $okr = $entityManager->getRepository(OKR::class)->find($id);
@@ -49,7 +49,7 @@ final class OKRController extends AbstractController
         ]);
     }
 
-    #[Route('/okr/new', name: 'post_okr', methods: ["POST"])]
+    #[Route('/api/okr/new', name: 'post_okr', methods: ["POST"])]
     public function post(EntityManagerInterface $entityManager): JsonResponse
     {
         $defaultValue = "{\"id\":0,\"data\":{\"objective\":\"Objective\",\"description\":\"description\"}}";
