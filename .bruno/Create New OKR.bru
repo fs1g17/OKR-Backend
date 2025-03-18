@@ -6,6 +6,12 @@ meta {
 
 post {
   url: {{baseUrl}}/api/okr/new
-  body: none
+  body: json
   auth: none
+}
+
+body:json {
+  {
+    "name": "Test-2"
+  }
 }

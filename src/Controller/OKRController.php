@@ -42,7 +42,7 @@ final class OKRController extends AbstractController
             'message' => 'success',
             'data' => [
                 'name' => $okr->getName(),
-                'okr' => $okr->getOkr(),
+                'okr' => json_decode($okr->getOkr(), true),
             ]
         ]);
     }
