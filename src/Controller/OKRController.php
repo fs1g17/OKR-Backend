@@ -72,6 +72,11 @@ final class OKRController extends AbstractController
             );
         }
 
+        $currentUserIdentifier = $this->getUser()->getUserIdentifier();
+        if ($okr->getCreatedBy()->getUserIdentifier() !== $currentUserIdentifier){
+            throw $this->createAccessDeniedException("Access denied for user $currentUserIdentifier");
+        }
+
         return $this->json([
             'message' => 'success',
             'data' => [
