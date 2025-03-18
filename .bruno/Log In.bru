@@ -1,0 +1,18 @@
+meta {
+  name: Log In
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/api/login_check
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "username": "theo.s",
+    "password": "abc123"
+  }
+}

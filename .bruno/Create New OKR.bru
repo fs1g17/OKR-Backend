@@ -5,7 +5,13 @@ meta {
 }
 
 post {
-  url: {{baseUrl}}/okr/new
-  body: none
+  url: {{baseUrl}}/api/okr/new
+  body: json
   auth: none
+}
+
+body:json {
+  {
+    "name": "Test-4"
+  }
 }
