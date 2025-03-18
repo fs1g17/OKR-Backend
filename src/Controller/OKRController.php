@@ -27,26 +27,6 @@ final class OKRController extends AbstractController
         ]);
     }
 
-    #[Route('/api/okr/{id}', name: 'get_okr', methods: ["GET"])]
-    public function get(EntityManagerInterface $entityManager, int $id): JsonResponse
-    {
-        $okr = $entityManager->getRepository(OKR::class)->find($id);
-
-        if (!$okr) {
-            throw $this->createNotFoundException(
-                'No OKR found with id' . $id
-            );
-        }
-
-        return $this->json([
-            'message' => 'success',
-            'data' => [
-                'name' => $okr->getName(),
-                'okr' => json_decode($okr->getOkr(), true),
-            ]
-        ]);
-    }
-
     #[Route('/api/okr/new', name: 'post_okr', methods: ["POST"])]
     public function post(EntityManagerInterface $entityManager, Request $request): JsonResponse
     {
@@ -76,7 +56,61 @@ final class OKRController extends AbstractController
             'data' => [
                 'id' => $okr->getId(),
                 'name' => $okr->getName(),
-                'okr' => $defaultValue,
+                'okr' => json_decode($okr->getOkr(), true)
+            ]
+        ]);
+    }
+
+    #[Route('/api/okr/{id}', name: 'get_okr', methods: ["GET"])]
+    public function get(EntityManagerInterface $entityManager, int $id): JsonResponse
+    {
+        $okr = $entityManager->getRepository(OKR::class)->find($id);
+
+        if (!$okr) {
+            throw $this->createNotFoundException(
+                'No OKR found with id' . $id
+            );
+        }
+
+        return $this->json([
+            'message' => 'success',
+            'data' => [
+                'name' => $okr->getName(),
+                'okr' => json_decode($okr->getOkr(), true),
+            ]
+        ]);
+    }
+
+    #[Route(path: '/api/okr/{id}', name: 'update_okr', methods: ["POST"])]
+    public function update(EntityManagerInterface $entityManager, Request $request, int $id): JsonResponse
+    {
+        $okr = $entityManager->getRepository(OKR::class)->find($id);
+
+        if (!$okr) {
+            throw $this->createNotFoundException(
+                'No OKR found with id' . $id
+            );
+        }
+
+        $jsonString = $request->getContent();
+        $data = json_decode($jsonString, true);
+        if($data === null) {
+            return $this->json([
+                'message' => 'error',
+                'description' => 'Failed to parse OKR - invalid JSON'
+            ], 400);
+        }
+
+        $okr->setOkr($jsonString);
+        $entityManager->persist($okr);
+        $entityManager->flush();
+
+        return $this->json([
+            'message' => 'success',
+            'data' => [
+                'id' => $okr->getId(),
+                'name' => $okr->getName(),
+                'okr' => json_decode($okr->getOkr(), true)
             ]
         ]);
     }
