@@ -30,9 +30,6 @@ services:
   ui:
     image: gcr.io/okr-tracker-454311/front
     restart: always
-    environment:
-      BACKEND_BASE_URL: http://app:8000
-      NEXT_PUBLIC_BACKEND_BASE_URL: http://app:8000
     ports: 
       - 3000:3000
     depends_on:

@@ -36,3 +36,7 @@ https://medium.com/@agharsaifeddine/set-up-jwt-authentication-with-symfony-using
 https://github.com/lexik/LexikJWTAuthenticationBundle/issues/646#issuecomment-590422947
 
 I'm here: https://symfony.com/doc/current/security.html#the-firewall
+
+### Docker
+- `docker build -t gcr.io/okr-tracker-454311/back .`
+- `docker push gcr.io/okr-tracker-454311/back `
