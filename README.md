@@ -1,6 +1,9 @@
 ### Steps
 
 #### Run 
+- `composer install`
+- `openssl genrsa -out config/jwt/private.pem`
+- `openssl rsa -in config/jwt/private.pem -pubout > config/jwt/public.pem` 
 - `symfony server:start`
 - `docker compose up -d`
 if volume has been deleted, re-run migrations:
