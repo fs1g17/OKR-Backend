@@ -25,6 +25,8 @@ if volume has been deleted, re-run migrations:
 - `php bin/console make:user` 
 - `php bin/console make:controller`
 
+https://symfony.com/doc/current/doctrine.html
+
 https://medium.com/@agharsaifeddine/set-up-jwt-authentication-with-symfony-using-the-lexikjwtauthenticationbundle-2df8e9170bec
 - [generate keys](https://stackoverflow.com/a/78348410)
 - `composer require lexik/jwt-authentication-bundle`

@@ -6,10 +6,33 @@ meta {
 
 post {
   url: {{baseUrl}}/api/okr/:id
-  body: none
+  body: json
   auth: none
 }
 
 params:path {
-  id: 
+  id: 5
+}
+
+body:json {
+  {
+        "counter": 2,
+        "data": {
+          "id": 0,
+          "data": {
+            "objective": "Objective",
+            "description": "Description"
+          },
+          "children": [
+            {
+              "id": 1,
+              "data": {
+                "description": "",
+                "objective": "somethnig5"
+              },
+              "children": []
+            }
+          ]
+        }
+      }
 }
